@@ -1,11 +1,30 @@
+EXEC=list-example
 
 CC=gcc
+LD=gcc
 
-FLAGS += --std=c11
-FLAGS += -I../../include
-FLAGS += -L../../
-FLAGS += -lkzeliloj
+CCFLAGS += --std=c11
+CCFLAGS += -I../../include
+CCFLAGS += -lkzeliloj
+CCFLAGS += -g
 
+# LDFLAGS += -L../../
+LDFLAGS += -lkzeliloj
+LDFLAGS += -g
 
-all:
-	gcc $(FLAGS) *.c -o example_list
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(LD) $^ $(LDFLAGS) -o $@
+
+%.o: %.c
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(OBJ)
+
+mrproper: clean
+	rm -rf $(EXEC)
