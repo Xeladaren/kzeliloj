@@ -4,10 +4,10 @@ SRCDIR = src
 LIBDIR = include
 OBJDIR = obj
 
-INSTALL_DIR = /usr/lib
+INSTALL_DIR ?= /usr/lib
 
-CC = gcc
-LC = gcc
+CC ?= gcc
+LC ?= gcc
 
 ## CC Options ##
 CCFLAGS += -I./$(LIBDIR)
@@ -44,9 +44,9 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 install: all
-	install $(LIBNAME).so     $(INSTALL_DIR)
-	install $(LIBNAME).so.1   $(INSTALL_DIR)
-	install $(LIBNAME).so.1.0 $(INSTALL_DIR)
+	install $(LIBNAME).so.1.0  $(INSTALL_DIR)
+	ln -sf  $(LIBNAME).so.1.0  $(INSTALL_DIR)/$(LIBNAME).so
+	ln -sf  $(LIBNAME).so.1.0  $(INSTALL_DIR)/$(LIBNAME).so.1
 
 example:
 	@make -C examples/ all
