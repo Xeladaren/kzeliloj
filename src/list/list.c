@@ -6,14 +6,14 @@
  *  @date       2021-03-11
  */
 
-#include <kzeliloj/list.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 
-/*****************************************************
- ***   Struct                                      ***
- *****************************************************/
+#include "kzeliloj/list.h"
+
+/*****************************************************/
+/***   Struct                                      ***/
+/*****************************************************/
 
 /*!
  *  @private
@@ -41,9 +41,9 @@ struct tListNode
     void        *pvValue; /*!< The value of the element. */
 };
 
-/*****************************************************
- ***   Methodes                                    ***
- *****************************************************/
+/*****************************************************/
+/***   Methodes                                    ***/
+/*****************************************************/
 
 /*!
  *  @public
@@ -198,7 +198,8 @@ int list_pushBack(tList_t *p_ptList, void *p_pvNewValue)
 
 /*!
  *  @public
- *  @brief      get the value of the first node in the list (at the front), and remove it.
+ *  @brief      Get the value of the first node in the list (at the at the front).
+ *              Remove the node from the list and free it.
  *
  *  @param[in]  p_ptList    The list to get the node.
  *
@@ -236,7 +237,8 @@ void *list_popFirst(tList_t *p_ptList)
 
 /*!
  *  @public
- *  @brief      get the value of the last node in the list (at the back), and remove it.
+ *  @brief      Get the value of the last node in the list (at the back).
+ *              Remove the node from the list and free it.
  *
  *  @param[in]  p_ptList    The list to get the node.
  *
@@ -350,6 +352,133 @@ tListNode_t *list_getLastNode(tList_t *p_ptList)
     }
 
     return l_ptOutNode;
+}
+
+/*!
+ *  @public
+ *  @brief      Get the next note.
+ *
+ *  @param[in]  p_ptNode    The actual node.
+ *
+ *  @return     The next node, or NULL if this node is the last.
+ */
+tListNode_t *list_getNextNode(tListNode_t *p_ptNode)
+{
+    tListNode_t *l_ptRet = NULL;
+
+    if(p_ptNode != NULL)
+    {
+        l_ptRet = p_ptNode->ptNext;
+    }
+
+    return l_ptRet;
+}
+
+/*!
+ *  @public
+ *  @brief      Get the previous note.
+ *
+ *  @param[in]  p_ptNode    The actual node.
+ *
+ *  @return     The previous node, or NULL if this node is the first.
+ */
+tListNode_t *list_getPrevNode(tListNode_t *p_ptNode)
+{
+    tListNode_t *l_ptRet = NULL;
+
+    if(p_ptNode != NULL)
+    {
+        l_ptRet = p_ptNode->ptPrev;
+    }
+
+    return l_ptRet;
+}
+
+/*!
+ *  @public
+ *  @brief      Check if the node is the first node in the list.
+ *
+ *  @param[in]  p_ptList    The list.
+ *  @param[in]  p_ptNode    The node.
+ *
+ *  @return     true if the node is the first, else if it's not.
+ */
+bool list_isFirstNode(tList_t *p_ptList, tListNode_t *p_ptNode)
+{
+    bool l_bRet = false;
+
+    if(p_ptNode != NULL)
+    {
+        if(p_ptNode == p_ptList->ptFirst)
+        {
+            l_bRet = true;
+        }
+    }
+
+    return l_bRet;
+}
+
+/*!
+ *  @public
+ *  @brief      Check if the node is the last node in the list.
+ *
+ *  @param[in]  p_ptList    The list.
+ *  @param[in]  p_ptNode    The node.
+ *
+ *  @return     true if the node is the last, else if it's not.
+ */
+bool list_isLastNode(tList_t *p_ptList, tListNode_t *p_ptNode)
+{
+    bool l_bRet = false;
+
+    if(p_ptNode != NULL)
+    {
+        if(p_ptNode == p_ptList->ptLast)
+        {
+            l_bRet = true;
+        }
+    }
+
+    return l_bRet;
+}
+
+/*!
+ *  @public
+ *  @brief      Remove and free a node from the list, and return this value.
+ *
+ *  @param[in]  p_ptList    The list
+ *  @param[in]  p_ptNode    The node to remove.
+ *
+ *  @return     the value of the node, or NULL if it's fail.
+ */
+void *list_popNodeInList(tList_t *p_ptList, tListNode_t *p_ptNode)
+{
+    void *l_pvRet = NULL;
+
+    if(p_ptList != NULL && p_ptNode != NULL)
+    {
+        if(list_isFirstNode(p_ptList, p_ptNode))
+        {
+            l_pvRet = list_popFirst(p_ptList);
+        }
+        else if(list_isLastNode(p_ptList, p_ptNode))
+        {
+            l_pvRet = list_popLast(p_ptList);
+        }
+        else
+        {
+            l_pvRet = list_getNodeValue(p_ptNode);
+
+            p_ptNode->ptPrev->ptNext = p_ptNode->ptNext;
+            p_ptNode->ptNext->ptPrev = p_ptNode->ptPrev;
+
+            p_ptList->uLen -= 1;
+
+            free(p_ptNode);
+        }
+    }
+
+    return l_pvRet;
 }
 
 /*!
