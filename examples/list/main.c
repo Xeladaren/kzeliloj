@@ -12,12 +12,17 @@ int main()
     {
 
         /* Add Value to the list. */
-        list_pushFront(list, NULL);
+        list_pushFront(list, (void *) i+1);
 
     }
 
     /* Print the list */
     list_print(list);
+
+    for(tListNode_t *node = list_getFirstNode(list); node != NULL; node = list_getNextNode(node))
+    {
+        printf("Node %p : %p\n", node, list_getNodeValue(node));
+    }
 
     /* Delete the list */
     list_delete(list);
