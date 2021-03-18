@@ -4,7 +4,7 @@ SRCDIR = src
 LIBDIR = include
 OBJDIR = obj
 
-INSTALL_DIR ?= /usr/lib
+INSTALL_DIR ?= /usr
 
 CC ?= gcc
 LC ?= gcc
@@ -44,9 +44,12 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 install: all
-	install $(LIBNAME).so.1.0  $(INSTALL_DIR)
-	ln -sf  $(LIBNAME).so.1.0  $(INSTALL_DIR)/$(LIBNAME).so
-	ln -sf  $(LIBNAME).so.1.0  $(INSTALL_DIR)/$(LIBNAME).so.1
+	install -d $(INSTALL_DIR)/lib
+	install -d $(INSTALL_DIR)/include/kzeliloj
+	install -m 644 $(LIBDIR)/kzeliloj/*.h $(INSTALL_DIR)/include/kzeliloj 
+	install -m 644 $(LIBNAME).so.1.0      $(INSTALL_DIR)/lib
+	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so
+	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so.1
 
 example:
 	@make -C examples/ all

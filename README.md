@@ -23,12 +23,12 @@ make example
 
 ## Install
 
-Install file in `/usr/lib/`:
+Install lib file in `/usr/lib/` and include file in `/usr/include`:
 ```bash
 sudo make install
 ```
 
-Install file in custom dir:
+Install lib file in `custom/dir/lib` and include file in `custom/dir/include` :
 ```bash
-INSTALL_DIR=/custom/dir make install
+INSTALL_DIR=custom/dir make install
 ```
