@@ -16,13 +16,13 @@
 /*****************************************************/
 
 /*!
- *  @public
+ *  @class      tList_t
  *  @brief      The public type for @link tList @endlink private structure.
  */
 typedef struct tList     tList_t;
 
 /*!
- *  @public
+ *  @class      tListNode_t
  *  @brief      The public type for @link tListNode @endlink private structure.
  */
 typedef struct tListNode tListNode_t;

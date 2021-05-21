@@ -43,6 +43,9 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 	$(CC) $(CCFLAGS) -c $< -o $@
 
+doc:
+	doxygen Doxyfile
+
 install: all
 	install -d $(INSTALL_DIR)/lib
 	install -d $(INSTALL_DIR)/include/kzeliloj
