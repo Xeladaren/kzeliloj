@@ -17,13 +17,13 @@
 
 /*!
  *  @class      tList_t
- *  @brief      The public type for @link tList @endlink private structure.
+ *  @brief      A doubly linked list object.
  */
 typedef struct tList     tList_t;
 
 /*!
  *  @class      tListNode_t
- *  @brief      The public type for @link tListNode @endlink private structure.
+ *  @brief      A node of the doubly linked list tList_t.
  */
 typedef struct tListNode tListNode_t;
 
@@ -33,183 +33,203 @@ typedef struct tListNode tListNode_t;
 
 /*!
  *  @public
- *  @brief      Init the LIST object.
+ *  @memberof   tList_t
+ *  @brief      Create and init a new tList_t object.
  *
- *  @return     A pointer to the list object, or NULL if it is fail.
+ *  @return     The new tList_t object, or NULL if it is fail.
  */
 tList_t *list_init();
 
 /*!
  *  @public
- *  @brief      Purge and delete the List.
+ *  @memberof   tList_t
+ *  @brief      Purge and delete this tList_t.
  *
- *  @param[in]  p_ptList    The list to delete.
+ *  @warning    The tList_t and all tListNode_t objects are freed, but not the void * pointers of the tListNode_t values.
+ *
+ *  @param[in]  this    The tList_t object.
  */
-void list_delete(tList_t *p_ptList);
+void list_delete(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Get the size of the list.
+ *  @memberof   tList_t
+ *  @brief      Get the size of this tList_t.
  *
- *  @param[in]  p_ptList    The list to count.
+ *  @param[in]  this    The tList_t object.
  *
- *  @return     The number of nodes in the list, or -1 if it's fail.
+ *  @return     The number of nodes in this tList_t, or -1 if it's fail.
  */
-int  list_len(tList_t *p_ptList);
+int  list_len(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Add a new value at the front of the list (the first value).
+ *  @memberof   tList_t
+ *  @brief      Add a new value at the front of this tList_t (the first value).
  *
- *  @param[in]  p_ptList     The list to add the value to.
+ *  @param[in]  this         The tList_t object.
  *  @param[in]  p_pvNewValue The new value to add.
  *
  *  @return     0 if succes, -1 if it's fail.
  */
-int  list_pushFront(tList_t *p_ptList, void *p_pvNewValue);
+int  list_pushFront(tList_t *this, void *p_pvNewValue);
 
 /*!
  *  @public
- *  @brief      Add a new value at the back of the list (the last value).
+ *  @memberof   tList_t
+ *  @brief      Add a new value at the back of this tList_t (the last value).
  *
- *  @param[in]  p_ptList     The list to add the value to.
+ *  @param[in]  this         The tList_t object.
  *  @param[in]  p_pvNewValue The new value to add.
  *
  *  @return     0 if succes, -1 if it's fail.
  */
-int  list_pushBack(tList_t *p_ptList, void *p_pvNewValue);
+int  list_pushBack(tList_t *this, void *p_pvNewValue);
 
 /*!
  *  @public
- *  @brief      Get the value of the first node in the list (at the at the front).
- *              Remove the node from the list and free it.
+ *  @memberof   tList_t
+ *  @brief      Get the value of the first tListNode_t in this tList_t (at the front).
+ *              Remove the tListNode_t from the list and free it.
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
  *  @return     The first value, or NULL if it's fail.
  */
-void *list_popFirst(tList_t *p_ptList);
+void *list_popFirst(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Get the value of the last node in the list (at the back).
- *              Remove the node from the list and free it.
+ *  @memberof   tList_t
+ *  @brief      Get the value of the last tListNode_t in this tList_t (at the back).
+ *              Remove the tListNode_t from the tList_t and free it.
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
  *  @return     The last value, or NULL if it's fail.
  */
-void *list_popLast(tList_t *p_ptList);
+void *list_popLast(tList_t *this);
 
 /*!
  *  @public
- *  @brief      get the value of the first node in the list (at the front).
+ *  @memberof   tList_t
+ *  @brief      get the value of the first tListNode_t in this tList_t (at the front).
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
  *  @return     The first value, or NULL if it's fail.
  */
-void *list_getFirst(tList_t *p_ptList);
+void *list_getFirst(tList_t *this);
 
 /*!
  *  @public
- *  @brief      get the value of the last node in the list (at the back).
+ *  @memberof   tList_t
+ *  @brief      get the value of the last tListNode_t in this tList_t (at the back).
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
  *  @return     The last value, or NULL if it's fail.
  */
-void *list_getLast(tList_t *p_ptList);
+void *list_getLast(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Get the first node object (at the front) in the list.
+ *  @memberof   tList_t
+ *  @brief      Get the first tListNode_t object (at the front) in this tList_t.
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
- *  @return     The first node object, or NULL if the list is empty.
+ *  @return     The first tListNode_t object, or NULL if this tList_t is empty.
  */
-tListNode_t *list_getFirstNode(tList_t *p_ptList);
+tListNode_t *list_getFirstNode(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Get the last node object (at the back) in the list.
+ *  @memberof   tList_t
+ *  @brief      Get the last tListNode_t object (at the back) in this tList_t.
  *
- *  @param[in]  p_ptList    The list to get the node.
+ *  @param[in]  this    The tList_t object.
  *
- *  @return     The last node object, or NULL if the list is empty.
+ *  @return     The last tListNode_t object, or NULL if this tList_t is empty.
  */
-tListNode_t *list_getLastNode(tList_t *p_ptList);
+tListNode_t *list_getLastNode(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Get the next note.
+ *  @memberof   tList_t
+ *  @brief      Check if the tListNode_t is the first tListNode_t in this tListNode_t.
  *
- *  @param[in]  p_ptNode    The actual node.
+ *  @param[in]  this        The tList_t object.
+ *  @param[in]  p_ptNode    The tListNode_t to test.
  *
- *  @return     The next node, or NULL if this node is the last.
+ *  @return     true if the tListNode_t is the first, else if it's not.
  */
-tListNode_t *list_getNextNode(tListNode_t *p_ptNode);
+bool list_isFirstNode(tList_t *this, tListNode_t *p_ptNode);
 
 /*!
  *  @public
- *  @brief      Get the previous note.
+ *  @memberof   tList_t
+ *  @brief      Check if the tListNode_t is the last tListNode_t in this tList_t.
  *
- *  @param[in]  p_ptNode    The actual node.
+ *  @param[in]  this        The tList_t object.
+ *  @param[in]  p_ptNode    The tListNode_t to test.
  *
- *  @return     The previous node, or NULL if this node is the first.
+ *  @return     true if the tListNode_t is the last, else if it's not.
  */
-tListNode_t *list_getPrevNode(tListNode_t *p_ptNode);
+bool list_isLastNode(tList_t *this, tListNode_t *p_ptNode);
 
 /*!
  *  @public
- *  @brief      Check if the node is the first node in the list.
+ *  @memberof   tList_t
+ *  @brief      Remove and free a tListNode_t from this tList_t, and return this value.
  *
- *  @param[in]  p_ptList    The list.
- *  @param[in]  p_ptNode    The node.
+ *  @param[in]  this        The tList_t object.
+ *  @param[in]  p_ptNode    The tListNode_t to remove.
  *
- *  @return     true if the node is the first, else if it's not.
+ *  @return     the value of the tListNode_t, or NULL if it's fail.
  */
-bool list_isFirstNode(tList_t *p_ptList, tListNode_t *p_ptNode);
+void *list_popNodeInList(tList_t *this, tListNode_t *p_ptNode);
 
 /*!
  *  @public
- *  @brief      Check if the node is the last node in the list.
+ *  @memberof   tList_t
+ *  @brief      Print the tList_t to standard output (for debug).
  *
- *  @param[in]  p_ptList    The list.
- *  @param[in]  p_ptNode    The node.
- *
- *  @return     true if the node is the last, else if it's not.
+ *  @param[in]  this    The tList_t object.
  */
-bool list_isLastNode(tList_t *p_ptList, tListNode_t *p_ptNode);
+void list_print(tList_t *this);
 
 /*!
  *  @public
- *  @brief      Remove and free a node from the list, and return this value.
+ *  @memberof   tListNode_t
+ *  @brief      Get the value of a tListNode_t.
  *
- *  @param[in]  p_ptList    The list
- *  @param[in]  p_ptNode    The node to remove.
+ *  @param[in]  this    The tListNode_t object.
  *
- *  @return     the value of the node, or NULL if it's fail.
+ *  @return     The value of the tListNode_t, or NULL if it's fail.
  */
-void *list_popNodeInList(tList_t *p_ptList, tListNode_t *p_ptNode);
+void *listNode_getNodeValue(tListNode_t *this);
 
 /*!
  *  @public
- *  @brief      Get the value of a node.
+ *  @memberof   tListNode_t
+ *  @brief      Get the next tListNode_t in the tList_t.
  *
- *  @param[in]  p_ptNode    The note to get the value.
+ *  @param[in]  this    The tListNode_t object.
  *
- *  @return     The value of the node, or NULL if it's fail.
+ *  @return     The next tListNode_t, or NULL if this tListNode_t is the last.
  */
-void *list_getNodeValue(tListNode_t *p_ptNode);
+tListNode_t *listNode_getNextNode(tListNode_t *this);
 
 /*!
  *  @public
- *  @brief      Print the list to standard output (for debug).
+ *  @memberof   tListNode_t
+ *  @brief      Get the previous tListNode_t int the tList_t.
  *
- *  @param[in]  p_ptList    The list to print.
+ *  @param[in]  this    The tListNode_t object.
+ *
+ *  @return     The previous tListNode_t, or NULL if this tListNode_t is the first.
  */
-void list_print(tList_t *p_ptList);
+tListNode_t *listNode_getPrevNode(tListNode_t *this);
 
 #endif /* LIST_H */
