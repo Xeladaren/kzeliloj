@@ -43,13 +43,15 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 	$(CC) $(CCFLAGS) -c $< -o $@
 
+.PHONY : doc clear mrproper
+
 doc:
 	doxygen Doxyfile
 
 install: all
 	install -d $(INSTALL_DIR)/lib
 	install -d $(INSTALL_DIR)/include/kzeliloj
-	install -m 644 $(LIBDIR)/kzeliloj/*.h $(INSTALL_DIR)/include/kzeliloj 
+	install -m 644 $(LIBDIR)/kzeliloj/*.h $(INSTALL_DIR)/include/kzeliloj
 	install -m 644 $(LIBNAME).so.1.0      $(INSTALL_DIR)/lib
 	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so
 	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so.1
