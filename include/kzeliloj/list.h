@@ -38,7 +38,7 @@ typedef struct tListNode tListNode_t;
  *
  *  @return     The new tList_t object, or NULL if it is fail.
  */
-tList_t *list_init();
+tList_t *list_new(void);
 
 /*!
  *  @public

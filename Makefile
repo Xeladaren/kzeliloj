@@ -1,47 +1,48 @@
 LIBNAME = libkzeliloj
 
-SRCDIR = src
-LIBDIR = include
-OBJDIR = obj
+LIB_VERSION_MAJOR = 1
+LIB_VERSION_MINOR = 0
 
-INSTALL_DIR ?= /usr
+SRC_DIR     = src
+INCLUDE_DIR = include
+OBJ_DIR     = obj
+
+INSTALL_DIR_LIB ?= /usr/lib/x86_64-linux-gnu
+INSTALL_DIR_INCLUDE ?= /usr/include
 
 CC ?= gcc
 LC ?= gcc
 
 ## CC Options ##
-CCFLAGS += -I./$(LIBDIR)
+CCFLAGS += -I./$(INCLUDE_DIR)
 CCFLAGS += -Wall
 CCFLAGS += -Wextra
 CCFLAGS += -std=c11
 CCFLAGS += -fPIC
-CCFLAGS += -g
+# DEBUG options
+# CCFLAGS += -g -DDEBUG
+
+LIBFILE = $(LIBNAME).so.$(LIB_VERSION_MAJOR).$(LIB_VERSION_MINOR)
 
 ## LD Options ##
-LDFLAGS += -shared
-LDFLAGS += -Wl,-soname,$(LIBNAME).so.1
-LDFLAGS += -g
+LDFLAGS += -Wl,-soname,$(LIBNAME).so.$(LIB_VERSION_MAJOR)
+# DEBUG options
+# LDFLAGS += -g -DDEBUG
 
-SRC=$(shell find $(SRCDIR)/ -type f -name '*.c')
-OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+SRC = $(shell find $(SRC_DIR)/ -type f -name '*.c')
+OBJ = $(SRC:.c=.o)
 
-all : $(LIBNAME).so.1.0 $(LIBNAME).so.1 $(LIBNAME).so
+all : $(LIBFILE)
 
-$(LIBNAME).so : $(LIBNAME).so.1.0
-	ln -s $< $@
+$(LIBFILE) : $(OBJ)
+	@echo "	LD $@"
+	@$(LC) -shared $(LDFLAGS) $^ -o $@
+	@ln -sf $(LIBFILE) $(LIBNAME).so.$(LIB_VERSION_MAJOR)
+	@ln -sf $(LIBFILE) $(LIBNAME).so
 
-$(LIBNAME).so.1 : $(LIBNAME).so.1.0
-	ln -s $< $@
-
-$(LIBNAME).so.1.0 : $(OBJ)
-	$(LC) $(LDFLAGS) $^ -o $@
-
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR)
-	@mkdir -p `dirname $@`
-	@mkdir -p $(LIBDIR)
-
-	$(CC) $(CCFLAGS) -c $< -o $@
+%.o: %.c
+	@echo "	CC $@"
+	@$(CC) $(CCFLAGS) -c $< -o $@
 
 .PHONY : doc clear mrproper
 
@@ -49,20 +50,18 @@ doc:
 	doxygen Doxyfile
 
 install: all
-	install -d $(INSTALL_DIR)/lib
-	install -d $(INSTALL_DIR)/include/kzeliloj
-	install -m 644 $(LIBDIR)/kzeliloj/*.h $(INSTALL_DIR)/include/kzeliloj
-	install -m 644 $(LIBNAME).so.1.0      $(INSTALL_DIR)/lib
-	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so
-	ln -sf  $(LIBNAME).so.1.0 $(INSTALL_DIR)/lib/$(LIBNAME).so.1
-
-example:
-	@make -C examples/ all
+	# create the include folder.
+	install -d $(INSTALL_DIR_INCLUDE)/kzeliloj
+	# move the include and lib files
+	install -m 644 $(INCLUDE_DIR)/kzeliloj/*.h $(INSTALL_DIR_INCLUDE)/kzeliloj
+	install -m 644 $(LIBFILE) $(INSTALL_DIR_LIB)
+	# create the symbolic link of libs.
+	ln -sf $(LIBFILE) $(INSTALL_DIR_LIB)/$(LIBNAME).so
+	ln -sf $(LIBFILE) $(INSTALL_DIR_LIB)/$(LIBNAME).so.$(LIB_VERSION_MAJOR)
 
 clear :
-	rm -rf $(OBJDIR)/
-	@make -C examples/ clean
+	rm -rf $(OBJ)
 
 mrproper : clear
 	rm -f $(LIBNAME).so*
-	@make -C examples/ mrproper
+	rm -rf doc/

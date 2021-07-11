@@ -6,7 +6,7 @@ LD=gcc
 CCFLAGS += --std=c11
 CCFLAGS += -Wall
 CCFLAGS += -Wextra
-CCFLAGS += -g
+CCFLAGS += -g -DDEBUG
 
 LDFLAGS += -lkzeliloj
 LDFLAGS += -g

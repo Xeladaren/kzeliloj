@@ -68,7 +68,7 @@ struct tListNode
 /*****************************************************/
 
 /* Doc in "list.h". */
-tList_t *list_init()
+tList_t *list_new(void)
 {
     tList_t *this = NULL;
 
