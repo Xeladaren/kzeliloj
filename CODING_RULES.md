@@ -199,7 +199,7 @@ tObject_t *object_new(void)
 {
     return (tObject_t *) malloc(sizeof(tObject_t));
 }
-void       object_delete(tObject_t *this)
+void object_delete(tObject_t *this)
 {
     if(this != NULL)
     {
@@ -207,7 +207,7 @@ void       object_delete(tObject_t *this)
     }
 }
 
-int        object_methode1(tObject_t *this, int p_iArg)
+int object_methode1(tObject_t *this, int p_iArg)
 {
     if(this != NULL)
     {
@@ -229,8 +229,8 @@ static void object_print(tObject_t *this)
 Don't use the C++ comments style (`//`), only C comments style are accepted (`/*  */`)
 Use the Doxygen style with the `/**` starter.
 
-For function write the doc on the prototype definition, and on the implementation, write a comment to indicate the protorype's doc location.
-For the `typedef struct`, write the doc ont the `typedef` location (if the `struct` and `typedef` deffinition are separated), and use the `@struct` tag.
+For function, write the doc on the prototype definition, and on the implementation, write a comment to indicate the protorype's doc location.
+For the `typedef struct`, write the doc ont the `typedef` location (if the `struct` and `typedef` definition are separated), and use the `@struct` tag.
 For object oriented programing, use the `@memberof`, `@private` and `@public` doxygen tags.
 
 Example :
@@ -278,7 +278,7 @@ struct tObject
      *
      * @brief    int argument.
      */
-    int  iArg1;
+    int iArg1;
     
     /**
      * @private
@@ -293,7 +293,9 @@ struct tObject
  * @private
  * @memberof tObject_t
  *
- * @brief    Print the object.
+ * @brief          Print the object.
+ *
+ * @param[in,out]  this  The object
  */
 static void object_print(tObject_t *this);
 
@@ -304,7 +306,7 @@ tObject_t *object_new(void)
 }
 
 /* Docs in the `object.h` file */
-void       object_delete(tObject_t *this)
+void object_delete(tObject_t *this)
 {
     if(this != NULL)
     {
