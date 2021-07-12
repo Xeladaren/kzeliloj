@@ -1,7 +1,7 @@
 EXEC=list-example
 
-CC=gcc
-LD=gcc
+CC = arm-linux-gnueabihf-gcc
+LD = arm-linux-gnueabihf-gcc
 
 CCFLAGS += --std=c11
 CCFLAGS += -Wall
