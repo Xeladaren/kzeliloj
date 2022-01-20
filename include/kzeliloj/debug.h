@@ -1,3 +1,15 @@
+/**
+ *  @file       debug.h
+ *  @date       2022-01-22
+ *  @copyright  GPL-v3
+ *  @author     Xeladaren
+ *
+ *  @brief      All debug tools definitions and prototype.
+ */
+
+/**************************************************/
+/***  Defines                                   ***/
+/**************************************************/
 
 #ifndef PRINT_DEBUG_H
 #define PRINT_DEBUG_H
@@ -90,3 +102,19 @@ if(!(cond)) { \
     errno = err; \
     return ret; \
 }
+
+/**************************************************/
+/***  Functions prototype                       ***/
+/**************************************************/
+
+/**
+ *  @brief  Print a buffer content.
+ *
+ *  @param  buff    The buffer to print.
+ *  @param  size    The size of the buffer (in octets).
+ *  @param  offset  The offset of the printed address, 
+ *                  the data are print from the start of the buffer, 
+ *                  just display index change.
+ *  @param color    Set if the func print colors or not.
+ */
+void printBuffer(void *buff, size_t size, off_t offset, bool color);
