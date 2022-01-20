@@ -14,40 +14,79 @@
 #define PRINT_ERROR(str, ...)   fprintf(stderr, "[\033[31;1mERROR\033[0m] " str "\n", ##__VA_ARGS__)
 #endif
 
+#define RETURN_OK 0
+#define RETURN_FAILURE -1
+
 /**
- *  @brief jump to jumpLable if cond is false.
+ *  @brief Jump to jumpLable if cond is false.
  */
-#define ASSERT(cond, jumpLabel) \
+#define ASSERT_JUMP(cond, jumpLabel) \
 if(!(cond)) { \
     goto jumpLabel; \
 }
 
 /**
- *  @brief jump to jumpLable if cond is false and print error message.
+ *  @brief Jump to jumpLable if cond is false and print error message.
  */
-#define ASSERT_PRINT(cond, jumpLabel, str, ...) \
+#define ASSERT_JUMP_PRINT(cond, jumpLabel, str, ...) \
 if(!(cond)) { \
     PRINT_ERROR(str, ##__VA_ARGS__); \
     goto jumpLabel; \
 }
 
 /**
- *  @brief jump to jumpLable if cond is false and set the errno.
+ *  @brief Jump to jumpLable if cond is false and set the errno.
  */
-#define ASSERT_ERROR(cond, jumpLabel, err) \
+#define ASSERT_JUMP_ERRNO(cond, jumpLabel, err) \
 if(!(cond)) { \
     errno = err; \
     goto jumpLabel; \
 }
 
 /**
- *  @brief jump to jumpLable if cond is false, print error message and set the errno.
+ *  @brief Jump to jumpLable if cond is false, print error message and set the errno.
  */
-#define ASSERT_PRINT_ERROR(cond, jumpLabel, err, str, ...) \
+#define ASSERT_JUMP_PRINT_ERRNO(cond, jumpLabel, err, str, ...) \
 if(!(cond)) { \
-    errno = err; \
     PRINT_ERROR(str, ##__VA_ARGS__); \
+    errno = err; \
     goto jumpLabel; \
 }
 
 #endif /* PRINT_DEBUG_H */
+
+/**
+ *  @brief Return retCode if cond is false.
+ */
+#define ASSERT_RETURN(cond, retCode) \
+if(!(cond)) { \
+    return ret; \
+}
+
+/**
+ *  @brief Return retCode if cond is false and print error message.
+ */
+#define ASSERT_RETURN_PRINT(cond, retCode, str, ...) \
+if(!(cond)) { \
+    PRINT_ERROR(str, ##__VA_ARGS__); \
+    return ret; \
+}
+
+/**
+ *  @brief Return retCode if cond is false and set the errno.
+ */
+#define ASSERT_RETURN(cond, retCode, err) \
+if(!(cond)) { \
+    errno = err; \
+    return ret; \
+}
+
+/**
+ *  @brief Return retCode if cond is false, print error message and set the errno.
+ */
+#define ASSERT_RETURN_PRINT(cond, retCode, err, str, ...) \
+if(!(cond)) { \
+    PRINT_ERROR(str, ##__VA_ARGS__); \
+    errno = err; \
+    return ret; \
+}
