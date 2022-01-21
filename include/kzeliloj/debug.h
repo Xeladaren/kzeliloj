@@ -14,6 +14,9 @@
 #ifndef PRINT_DEBUG_H
 #define PRINT_DEBUG_H
 
+#include <stddef.h>
+#include <stdbool.h>
+
 #ifdef DEBUG
 #define PRINT_DEBUG(str, ...)   fprintf(stdout, "[\033[35;1mDEBUG\033[0m] %s:%d: " str "\n", __func__, __LINE__, ##__VA_ARGS__)
 #define PRINT_INFO(str, ...)    fprintf(stdout, "[\033[36;1mINFO\033[0m] %s:%d: " str "\n", __func__, __LINE__, ##__VA_ARGS__)
@@ -72,7 +75,7 @@ if(!(cond)) { \
  */
 #define ASSERT_RETURN(cond, retCode) \
 if(!(cond)) { \
-    return ret; \
+    return retCode; \
 }
 
 /**
@@ -81,26 +84,26 @@ if(!(cond)) { \
 #define ASSERT_RETURN_PRINT(cond, retCode, str, ...) \
 if(!(cond)) { \
     PRINT_ERROR(str, ##__VA_ARGS__); \
-    return ret; \
+    return retCode; \
 }
 
 /**
  *  @brief Return retCode if cond is false and set the errno.
  */
-#define ASSERT_RETURN(cond, retCode, err) \
+#define ASSERT_RETURN_ERRNO(cond, retCode, err) \
 if(!(cond)) { \
     errno = err; \
-    return ret; \
+    return retCode; \
 }
 
 /**
  *  @brief Return retCode if cond is false, print error message and set the errno.
  */
-#define ASSERT_RETURN_PRINT(cond, retCode, err, str, ...) \
+#define ASSERT_RETURN_PRINT_ERRNO(cond, retCode, err, str, ...) \
 if(!(cond)) { \
     PRINT_ERROR(str, ##__VA_ARGS__); \
     errno = err; \
-    return ret; \
+    return retCode; \
 }
 
 /**************************************************/
@@ -112,9 +115,9 @@ if(!(cond)) { \
  *
  *  @param  buff    The buffer to print.
  *  @param  size    The size of the buffer (in octets).
- *  @param  offset  The offset of the printed address, 
- *                  the data are print from the start of the buffer, 
+ *  @param  offset  The offset of the printed address,
+ *                  the data are print from the start of the buffer,
  *                  just display index change.
  *  @param color    Set if the func print colors or not.
  */
-void printBuffer(void *buff, size_t size, off_t offset, bool color);
+void printBuffer(void *buff, size_t size, size_t offset, bool color);

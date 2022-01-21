@@ -27,7 +27,7 @@ LDFLAGS += -g -DDEBUG
 SRC = $(shell find $(SRC_DIR)/ -type f -name '*.c')
 OBJ = $(SRC:.c=.o)
 
-all : $(LIBNAME).so 
+all : $(LIBNAME).so
 
 $(LIBNAME).a : $(OBJ)
 	@echo "	AR $@"
@@ -47,9 +47,9 @@ doc:
 	doxygen Doxyfile
 
 install: all
-	install -d      $(INSTALL_DIR_INCLUDE)/kzeliloj
-	install -m  644 $(INCLUDE_DIR)/kzeliloj/*.h $(INSTALL_DIR_INCLUDE)/kzeliloj
-	install -sm 644 $(LIBNAME).so $(INSTALL_DIR_LIB)
+	install -d     $(INSTALL_DIR_INCLUDE)/kzeliloj
+	install -m 644 $(INCLUDE_DIR)/kzeliloj/*.h $(INSTALL_DIR_INCLUDE)/kzeliloj
+	install -m 644 $(LIBNAME).so $(INSTALL_DIR_LIB)
 
 clear :
 	rm -rf $(OBJ)

@@ -7,17 +7,26 @@
  *  @brief      Functions for debut and other print stuff.
  */
 
+#include <stddef.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <string.h>
+#include <stdio.h>
+#include <inttypes.h>
+
+#include <kzeliloj/debug.h>
+
 /**
  *  @brief  Print a buffer content.
  *
  *  @param  buff    The buffer to print.
  *  @param  size    The size of the buffer (in octets).
- *  @param  offset  The offset of the printed address, 
- *                  the data are print from the start of the buffer, 
+ *  @param  offset  The offset of the printed address,
+ *                  the data are print from the start of the buffer,
  *                  just display index change.
  *  @param color    Set if the func print colors or not.
  */
-void printBuffer(void *buff, size_t size, off_t offset, bool color)
+void printBuffer(void *buff, size_t size, size_t offset, bool color)
 {
     size_t         index = 0;
     unsigned char *value = NULL;
@@ -56,11 +65,11 @@ void printBuffer(void *buff, size_t size, off_t offset, bool color)
             }
             if(color)
             {
-                printf("\033[36m" "0x%04" PRIXPTR "\033[0m" "-" "\033[36m" "0x%04" PRIXPTR "\033[0m" " >", index+offset, index+offset+0x0F);
+                printf("\033[36m" "0x%04zX" "\033[0m" "-" "\033[36m" "0x%04zX" "\033[0m" " >", index+offset, index+offset+0x0F);
             }
             else
             {
-                printf("0x%04" PRIXPTR "-0x%04" PRIXPTR " >", index, index+0x0F);
+                printf("0x%04zX-0x%04zX >", index, index+0x0F);
             }
         }
         if(color)
